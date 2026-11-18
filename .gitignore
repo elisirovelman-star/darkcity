@@ -1,0 +1,7 @@
+node_modules/
+.env
+storage/*.sqlite
+storage/*.sqlite-shm
+storage/*.sqlite-wal
+storage/receipts/*
+!storage/receipts/.gitkeep

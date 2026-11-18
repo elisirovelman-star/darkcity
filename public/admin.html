@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="az">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#08040f">
+    <title>Dark City — Admin Panel</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #08040f;
+            --panel: #160b25;
+            --line: #71358a;
+            --pink: #ed19ff;
+            --muted: #c5b7d6
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(ellipse at 80% 0, #32104d 0, transparent 40%), var(--bg);
+            color: #f8f4ff;
+            font: 15px Inter, system-ui, Arial
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: auto;
+            padding: 32px 20px
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px
+        }
+
+        .brand {
+            font-weight: 950;
+            font-size: 25px;
+            letter-spacing: -1px
+        }
+
+        .brand span {
+            color: #ed27ff
+        }
+
+        .panel {
+            background: rgba(22, 11, 37, .92);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: 0 14px 40px #0006
+        }
+
+        .login {
+            max-width: 420px;
+            margin: 10vh auto
+        }
+
+        .field {
+            display: grid;
+            gap: 7px;
+            margin: 14px 0
+        }
+
+        .field label {
+            color: #ddcce9;
+            font-size: 13px
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #704087;
+            background: #090611;
+            color: white;
+            font: inherit
+        }
+
+        .btn {
+            border: 1px solid #ef4aff;
+            border-radius: 11px;
+            padding: 11px 16px;
+            color: white;
+            background: linear-gradient(120deg, #e000f5, #7927e9);
+            font-weight: 750;
+            cursor: pointer
+        }
+
+        .btn.secondary {
+            background: #11091d;
+            border-color: #74458a
+        }
+
+        .btn.danger {
+            background: #39101e;
+            border-color: #a33d5a
+        }
+
+        .btn:disabled {
+            opacity: .55;
+            cursor: wait
+        }
+
+        .error {
+            color: #ff9caf;
+            margin-top: 10px
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0
+        }
+
+        .toolbar select {
+            padding: 10px;
+            background: #0c0715;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            color: white
+        }
+
+        .orders {
+            display: grid;
+            gap: 13px
+        }
+
+        .order {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 18px;
+            align-items: center;
+            border: 1px solid #57306c;
+            background: #10091b;
+            border-radius: 14px;
+            padding: 17px
+        }
+
+        .order h3 {
+            margin: 0 0 7px
+        }
+
+        .meta {
+            color: #c4b2d1;
+            font-size: 13px;
+            line-height: 1.8
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 9px;
+            border-radius: 99px;
+            background: #463311;
+            color: #ffd77b;
+            font-size: 11px
+        }
+
+        .status.approved {
+            background: #143d28;
+            color: #a8ffca
+        }
+
+        .status.rejected {
+            background: #481a29;
+            color: #ffb6c7
+        }
+
+        .receipt {
+            display: block;
+            margin-top: 8px;
+            color: #f08aff;
+            text-decoration: underline
+        }
+
+        .empty {
+            padding: 28px;
+            text-align: center;
+            color: #bcaacb
+        }
+
+        .msg {
+            margin-top: 12px;
+            color: #adffc7
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: #000d;
+            display: none;
+            place-items: center;
+            padding: 20px;
+            z-index: 9
+        }
+
+        .modal.open {
+            display: grid
+        }
+
+        .modal img {
+            max-width: min(900px, 94vw);
+            max-height: 85vh;
+            object-fit: contain;
+            border: 1px solid #9e4db7;
+            border-radius: 12px
+        }
+
+        .modal button {
+            margin-top: 12px
+        }
+
+        @media(max-width:720px) {
+            .order {
+                grid-template-columns: 1fr
+            }
+
+            .top {
+                align-items: flex-start
+            }
+
+            .wrap {
+                padding: 20px 13px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <header class="top">
+            <div>
+                <div class="brand">DARK<span>CITY</span> / ADMIN</div>
+                <div class="muted">Ödəniş və rütbə sifarişlərinin idarə edilməsi</div>
+            </div><a class="btn secondary" href="/">Sayta qayıt</a>
+        </header>
+        <section class="panel login" id="loginPanel">
+            <h2>Admin girişi</h2>
+            <form id="loginForm">
+                <div class="field"><label>İstifadəçi adı</label><input name="username" autocomplete="username" required>
+                </div>
+                <div class="field"><label>Şifrə</label><input name="password" type="password"
+                        autocomplete="current-password" required></div><button class="btn" type="submit">Daxil
+                    ol</button>
+                <div class="error" id="loginError"></div>
+            </form>
+        </section>
+        <section id="dashboard" hidden>
+            <div class="panel">
+                <div class="top">
+                    <div>
+                        <h2 style="margin:0">Sifarişlər</h2>
+                        <div class="muted">Çeki yoxla, sonra təsdiqlə və ya rədd et.</div>
+                    </div><button class="btn secondary" id="logout">Çıxış</button>
+                </div>
+                <div class="toolbar"><select id="filter">
+                        <option value="pending">Gözləyənlər</option>
+                        <option value="approved">Təsdiqlənənlər</option>
+                        <option value="rejected">Rədd edilənlər</option>
+                        <option value="all">Hamısı</option>
+                    </select><button class="btn secondary" id="refresh">Yenilə</button></div>
+                <div class="orders" id="orders">
+                    <div class="empty">Yüklənir...</div>
+                </div>
+                <div class="msg" id="adminMsg"></div>
+            </div>
+        </section>
+    </main>
+    <div class="modal" id="receiptModal">
+        <div><img id="receiptImage" alt="Ödəniş çeki">
+            <div style="text-align:center"><button class="btn secondary" id="closeReceipt">Bağla</button></div>
+        </div>
+    </div>
+    <script>
+        const $ = s => document.querySelector(s); async function api(url, opts = {}) { const r = await fetch(url, { credentials: 'same-origin', ...opts, headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) } }); const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.error || 'Sorğu uğursuz oldu'); return d; }
+        function esc(v) { return String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+        function showDashboard() { $('#loginPanel').hidden = true; $('#dashboard').hidden = false; loadOrders(); }
+        async function check() { try { await api('/api/admin/me'); showDashboard(); } catch { $('#loginPanel').hidden = false; $('#dashboard').hidden = true; } }
+        $('#loginForm').addEventListener('submit', async e => { e.preventDefault(); $('#loginError').textContent = ''; const f = new FormData(e.currentTarget); try { await api('/api/admin/login', { method: 'POST', body: JSON.stringify({ username: f.get('username'), password: f.get('password') }) }); showDashboard(); } catch (err) { $('#loginError').textContent = err.message; } });
+        async function loadOrders() { const box = $('#orders'); box.innerHTML = '<div class="empty">Yüklənir...</div>'; try { const rows = await api('/api/admin/orders?status=' + $('#filter').value); if (!rows.length) { box.innerHTML = '<div class="empty">Bu bölmədə sifariş yoxdur.</div>'; return; } box.innerHTML = rows.map(o => `<article class="order"><div><h3>${esc(o.rankName)} · ${esc(o.amount)} AZN <span class="status ${o.status}">${o.status === 'pending' ? 'Gözləyir' : o.status === 'approved' ? 'Təsdiqlənib' : 'Rədd edilib'}</span></h3><div class="meta">Sifariş: ${esc(o.id)}<br>MTA username: <b>${esc(o.accountName)}</b><br>Tarix: ${new Date(o.createdAt).toLocaleString('az-AZ')}<br>Qeyd: ${esc(o.note || '—')}${o.rejectionReason ? '<br>Səbəb: ' + esc(o.rejectionReason) : ''}</div><a class="receipt" href="#" data-receipt="${esc(o.id)}">Çeki aç ↗</a></div><div class="actions">${o.status === 'pending' ? `<button class="btn" data-approve="${esc(o.id)}">Təsdiqlə</button><button class="btn danger" data-reject="${esc(o.id)}">Rədd et</button>` : ''}</div></article>`).join(''); } catch (e) { box.innerHTML = '<div class="empty">' + esc(e.message) + '</div>'; } }
+        $('#orders').addEventListener('click', async e => { const a = e.target.closest('[data-approve]'), r = e.target.closest('[data-reject]'), p = e.target.closest('[data-receipt]'); try { if (p) { e.preventDefault(); $('#receiptImage').src = '/api/admin/receipts/' + encodeURIComponent(p.dataset.receipt); $('#receiptModal').classList.add('open'); } else if (a) { if (!confirm('Bu sifarişi təsdiqləyib MTA serverinə rütbə göndərilsin?')) return; await api('/api/admin/orders/' + a.dataset.approve + '/approve', { method: 'POST', body: '{}' }); $('#adminMsg').textContent = 'Ödəniş təsdiqləndi. MTA serverinin grant sorğusu gözlənilir.'; loadOrders(); } else if (r) { const reason = prompt('Rədd etmə səbəbi:', 'Çek və ya ödəniş təsdiqlənmədi.'); if (reason === null) return; await api('/api/admin/orders/' + r.dataset.reject + '/reject', { method: 'POST', body: JSON.stringify({ reason }) }); $('#adminMsg').textContent = 'Sifariş rədd edildi.'; loadOrders(); } } catch (err) { $('#adminMsg').textContent = err.message; } });
+        $('#filter').addEventListener('change', loadOrders); $('#refresh').addEventListener('click', loadOrders); $('#logout').addEventListener('click', async () => { try { await api('/api/admin/logout', { method: 'POST', body: '{}' }); } finally { location.reload(); } }); $('#closeReceipt').addEventListener('click', () => $('#receiptModal').classList.remove('open')); $('#receiptModal').addEventListener('click', e => { if (e.target.id === 'receiptModal') $('#receiptModal').classList.remove('open'); }); check();
+    </script>
+</body>
+
+</html>
